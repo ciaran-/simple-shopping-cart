@@ -18,6 +18,20 @@ class ShoppingCartSpec extends Specification{
       val priceOfOrange = cart.priceForItem("orange")
       priceOfOrange mustEqual Some(0.25)
     }
+
+    "ignore case in product names" in {
+      val cart = new ShoppingCart()
+      val priceOfApple1 = cart.priceForItem("APPLE")
+      val priceOfApple2 = cart.priceForItem("ApPle")
+      priceOfApple2 mustEqual Some(0.60)
+      priceOfApple1 mustEqual priceOfApple2
+    }
+
+    "calculate and return total cost of multiple items" in {
+      val cart = new ShoppingCart()
+      val total = cart.checkoutWithItems(List("apple", "apple", "orange"))
+      total mustEqual 1.45
+    }
   }
 }
 /*

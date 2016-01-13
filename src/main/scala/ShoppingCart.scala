@@ -12,7 +12,15 @@ class ShoppingCart {
 
 
   def priceForItem(item:String): Option[Double] = {
-    products.get(item)
+    products.get(item.toLowerCase)
+  }
+
+  def checkoutWithItems(items: Seq[String]): Double = {
+    val allPrices: Seq[Double] = items.map(product => {
+      //If we don't have a price for an item, don't include it in the total
+      priceForItem(product).getOrElse(0.0)
+    })
+    allPrices.sum
   }
 }
 
