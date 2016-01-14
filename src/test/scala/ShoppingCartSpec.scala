@@ -43,6 +43,11 @@ class ShoppingCartSpec extends Specification{
       totalOrangeOffer mustEqual 1.1
     }
 
+    "calculate the correct total when no offers exist for a product" in new ShoppingCartScope {
+      val total = cart.checkoutWithItems(List("apple", "toothpaste"))
+      total mustEqual 1.8
+    }
+
     "ignore bad items from the total" in new ShoppingCartScope {
       val total = cart.checkoutWithItems(List("apple", "apple", "doughnut"))
       total mustEqual 0.6

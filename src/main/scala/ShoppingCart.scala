@@ -12,8 +12,10 @@ class ShoppingCart {
   */
   val products: Map[String, Double] = Map(
       "apple" -> 0.60,
-      "orange" -> 0.25
+      "orange" -> 0.25,
+      "toothpaste" -> 1.20
   )
+
   /*
   ** Offers defined by product
   *  Key: product name
