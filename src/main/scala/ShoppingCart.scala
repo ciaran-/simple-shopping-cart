@@ -10,7 +10,6 @@ class ShoppingCart {
       "orange" -> 0.25
   )
 
-
   def priceForItem(item:String): Option[Double] = {
     products.get(item.toLowerCase)
   }
@@ -22,6 +21,13 @@ class ShoppingCart {
     })
     allPrices.sum
   }
+
 }
 
+object CheckoutRunner extends App {
+  val cart = new ShoppingCart
+  //assumes args given will
+  val total = cart.checkoutWithItems(args)
+  println(s"The total cost of ${args.length} items in your basket is: £$total")
+}
 

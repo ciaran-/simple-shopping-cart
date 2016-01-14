@@ -1,6 +1,5 @@
 import org.specs2.mutable.Specification
-import org.specs2.specification.core.Env
-
+import org.specs2.specification.Scope
 /**
  * Created by Ciaran on 13/01/2016.
  *
@@ -10,8 +9,7 @@ import org.specs2.specification.core.Env
 class ShoppingCartSpec extends Specification{
 
   "The simple shopping cart" should {
-    "return the correct price for an item when asked" in {
-      val cart = new ShoppingCart()
+    "return the correct price for an item when asked" in new ShoppingCartScope{
       val priceOfApple = cart.priceForItem("apple")
       priceOfApple mustEqual Some(0.60)
 
@@ -19,22 +17,31 @@ class ShoppingCartSpec extends Specification{
       priceOfOrange mustEqual Some(0.25)
     }
 
-    "ignore case in product names" in {
-      val cart = new ShoppingCart()
+    "return None when the item isn't in the data" in new ShoppingCartScope {
+      val priceOfDoughnut = cart.priceForItem("doughnut")
+      priceOfDoughnut mustEqual None
+    }
+
+
+    "ignore case in product names" in new ShoppingCartScope {
       val priceOfApple1 = cart.priceForItem("APPLE")
       val priceOfApple2 = cart.priceForItem("ApPle")
       priceOfApple2 mustEqual Some(0.60)
       priceOfApple1 mustEqual priceOfApple2
     }
 
-    "calculate and return total cost of multiple items" in {
-      val cart = new ShoppingCart()
+    "calculate and return total cost of multiple items" in new ShoppingCartScope {
       val total = cart.checkoutWithItems(List("apple", "apple", "orange"))
       total mustEqual 1.45
     }
+
+    "ignore bad items from the total" in new ShoppingCartScope {
+      val total = cart.checkoutWithItems(List("apple", "apple", "doughnut"))
+      total mustEqual 1.2
+    }
   }
 }
-/*
-trait ShoppingCartTestEnv extends Env {
-  val cart = new ShoppingCart()
-}*/
+
+trait ShoppingCartScope extends Scope {
+  val cart = new ShoppingCart
+}
