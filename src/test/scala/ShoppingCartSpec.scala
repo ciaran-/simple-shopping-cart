@@ -31,13 +31,21 @@ class ShoppingCartSpec extends Specification{
     }
 
     "calculate and return total cost of multiple items" in new ShoppingCartScope {
-      val total = cart.checkoutWithItems(List("apple", "apple", "orange"))
-      total mustEqual 1.45
+      val total = cart.checkoutWithItems(List("apple", "orange"))
+      total mustEqual 0.85
+    }
+
+    "calculate the correct total when offers should be applied" in new ShoppingCartScope {
+      val totalAppleOffer = cart.checkoutWithItems(List("apple", "apple", "orange"))
+      val totalOrangeOffer = cart.checkoutWithItems(List("apple", "orange", "orange", "orange"))
+
+      totalAppleOffer mustEqual 0.85
+      totalOrangeOffer mustEqual 1.1
     }
 
     "ignore bad items from the total" in new ShoppingCartScope {
       val total = cart.checkoutWithItems(List("apple", "apple", "doughnut"))
-      total mustEqual 1.2
+      total mustEqual 0.6
     }
   }
 }
